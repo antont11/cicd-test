@@ -24,7 +24,7 @@ jobs:
 
       # Build the project
       - name: Build the project
-        run: ./gradlew clean build -x test
+        run: gradle clean build -x test
         # The CI environmental variable needs to be set to false, otherwise the npm warnings are treated as errors and fails the build
         env:
           CI: ""
