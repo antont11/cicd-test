@@ -60,7 +60,7 @@ jobs:
     defaults:
       # Change directory
       run:
-        working-directory: $DEPLOY_DIR
+        working-directory: /app/onestopd/onestopshopv2/cicd-runner
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
