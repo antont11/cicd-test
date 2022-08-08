@@ -68,33 +68,37 @@ jobs:
       # Delete backup
       - name: Delete backup
         run: |
-          pwd
           if [ test -f "demo-0.0.1-SNAPSHOT_bk.jar"]; then
             rm demo-0.0.1-SNAPSHOT_bk.jar
+          else
+            echo "file doesn't exist"
           fi
 
       # Rename old jar
       - name: Rename old jar
         run: |
-          cd /app/onestopd/onestopshopv2/cicd-runner
           if [ test -f "demo-0.0.1-SNAPSHOT.jar"]; then
             mv demo-0.0.1-SNAPSHOT.jar demo-0.0.1-SNAPSHOT_bk.jar
+          else
+            echo "file doesn't exist"
           fi
 
       # Rename new jar
       - name: Rename new jar
         run: |
-          cd /app/onestopd/onestopshopv2/cicd-runner
           if [ test -f "demo-0.0.1-SNAPSHOT_new.jar"]; then
             mv demo-0.0.1-SNAPSHOT_new.jar demo-0.0.1-SNAPSHOT.jar
+          else
+            echo "file doesn't exist"
           fi
 
       # Run jar
       - name: Run new jar
         run: |
-          cd /app/onestopd/onestopshopv2/cicd-runner
           if [ test -f "demo-0.0.1-SNAPSHOT.jar"]; then
             ./iamservices.sh restart demo-0.0.1-SNAPSHOT.jar
+          else
+            echo "file doesn't exist"
           fi
 
 
