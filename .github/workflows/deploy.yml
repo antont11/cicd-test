@@ -108,7 +108,7 @@ jobs:
 
       # Run jar
       - name: Run new jar
-        if: steps.check_jar.outputs.files_exists == 'true'
+#        if: steps.check_jar.outputs.files_exists == 'true'
         run: ./iamservices.sh restart demo-0.0.1-SNAPSHOT.jar
 
 
