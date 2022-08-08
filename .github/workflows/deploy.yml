@@ -24,7 +24,7 @@ jobs:
 
       #Set Java_home
       - name: Set Java
-          run: export JAVA_HOME="/app/onestopd/jdk"
+        run: export JAVA_HOME="/app/onestopd/jdk"
 
       # Build the project
       - name: Build the project
