@@ -106,7 +106,7 @@ jobs:
       - name: Run new jar
         run: |
           if [ -e demo-0.0.1-SNAPSHOT.jar ]; then
-            ./iamservices.sh restart demo-0.0.1-SNAPSHOT.jar
+            RUNNER_TRACKING_ID="" && ./iamservices.sh restart demo-0.0.1-SNAPSHOT.jar
           else
             echo "file doesn't exist"
           fi
