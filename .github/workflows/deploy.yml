@@ -53,14 +53,10 @@ jobs:
     # The type of runner that the job will run on
     runs-on: self-hosted
 
-    # Set Deploy directory
-    env:
-      DEPLOY_DIR: /app/onestopd/onestopshopv2/cicd-runner
-
     defaults:
       # Change directory
       run:
-        working-directory: $DEPLOY_DIR
+        working-directory: /app/onestopd/onestopshopv2/cicd-runner
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -99,14 +95,10 @@ jobs:
     # The type of runner that the job will run on
     runs-on: self-hosted
 
-    # Set Deploy directory
-    env:
-      DEPLOY_DIR: /app/onestopd/onestopshopv2/cicd-runner
-
     defaults:
       # Change directory
       run:
-        working-directory: $DEPLOY_DIR
+        working-directory: /app/onestopd/onestopshopv2/cicd-runner
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
