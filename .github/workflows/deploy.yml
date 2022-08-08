@@ -69,7 +69,7 @@ jobs:
       - name: Delete backup
         run: |
           pwd
-          if [ -f "demo-0.0.1-SNAPSHOT_bk.jar"]; then
+          if [ test -f "demo-0.0.1-SNAPSHOT_bk.jar"]; then
             rm demo-0.0.1-SNAPSHOT_bk.jar
           fi
 
@@ -77,7 +77,7 @@ jobs:
       - name: Rename old jar
         run: |
           cd /app/onestopd/onestopshopv2/cicd-runner
-          if [ -f "demo-0.0.1-SNAPSHOT.jar"]; then
+          if [ test -f "demo-0.0.1-SNAPSHOT.jar"]; then
             mv demo-0.0.1-SNAPSHOT.jar demo-0.0.1-SNAPSHOT_bk.jar
           fi
 
@@ -85,7 +85,7 @@ jobs:
       - name: Rename new jar
         run: |
           cd /app/onestopd/onestopshopv2/cicd-runner
-          if [ -f "demo-0.0.1-SNAPSHOT_new.jar"]; then
+          if [ test -f "demo-0.0.1-SNAPSHOT_new.jar"]; then
             mv demo-0.0.1-SNAPSHOT_new.jar demo-0.0.1-SNAPSHOT.jar
           fi
 
@@ -93,7 +93,7 @@ jobs:
       - name: Run new jar
         run: |
           cd /app/onestopd/onestopshopv2/cicd-runner
-          if [ -f "demo-0.0.1-SNAPSHOT.jar"]; then
+          if [ test -f "demo-0.0.1-SNAPSHOT.jar"]; then
             ./iamservices.sh restart demo-0.0.1-SNAPSHOT.jar
           fi
 
