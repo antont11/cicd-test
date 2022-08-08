@@ -57,10 +57,10 @@ jobs:
     env:
       DEPLOY_DIR: /app/onestopd/onestopshopv2/cicd-runner
 
-    defaults:
-      # Change directory
-      run:
-        working-directory: $DEPLOY_DIR
+#    defaults:
+#      # Change directory
+#      run:
+#        working-directory: $DEPLOY_DIR
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -68,6 +68,7 @@ jobs:
       # Delete backup
       - name: Delete backup
         run: |
+          cd $DEPLOY_DIR
           if [ -f "demo-0.0.1-SNAPSHOT_bk.jar"]; then
             echo "removing old jar"
             rm demo-0.0.1-SNAPSHOT_bk.jar
@@ -76,6 +77,7 @@ jobs:
       # Rename old jar
       - name: Rename old jar
         run: |
+          cd $DEPLOY_DIR
           if [ -f "demo-0.0.1-SNAPSHOT.jar"]; then
             echo "backing up old jar"
             mv demo-0.0.1-SNAPSHOT.jar demo-0.0.1-SNAPSHOT_bk.jar
@@ -84,6 +86,7 @@ jobs:
       # Rename new jar
       - name: Rename new jar
         run: |
+          cd $DEPLOY_DIR
           if [ -f "demo-0.0.1-SNAPSHOT_new.jar"]; then
             echo "renaming new jar"
             mv demo-0.0.1-SNAPSHOT_new.jar demo-0.0.1-SNAPSHOT.jar
@@ -92,6 +95,7 @@ jobs:
       # Run jar
       - name: Run new jar
         run: |
+          cd $DEPLOY_DIR
           if [ -f "demo-0.0.1-SNAPSHOT.jar"]; then
             echo "restarting application"
             ./iamservices.sh restart demo-0.0.1-SNAPSHOT.jar
