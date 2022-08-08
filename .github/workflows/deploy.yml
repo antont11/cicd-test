@@ -47,7 +47,7 @@ jobs:
       - name: Copy Jar
         run: cp build/libs/demo-0.0.1-SNAPSHOT.jar $DEPLOY_DIR/demo-0.0.1-SNAPSHOT_new.jar
 
-  deploy:
+  backup:
     needs: copy-jar
 
     # The type of runner that the job will run on
@@ -60,7 +60,7 @@ jobs:
     defaults:
       # Change directory
       run:
-        working-directory: /app/onestopd/onestopshopv2/cicd-runner
+        working-directory: $DEPLOY_DIR
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -68,7 +68,7 @@ jobs:
       # Delete backup
       - name: Delete backup
         run: |
-          ls
+          pwd
           if [ -e demo-0.0.1-SNAPSHOT_bk.jar ]; then
             rm demo-0.0.1-SNAPSHOT_bk.jar
           else
@@ -93,6 +93,23 @@ jobs:
             echo "file doesn't exist"
           fi
 
+  deploy:
+    needs: backup
+
+    # The type of runner that the job will run on
+    runs-on: self-hosted
+
+    # Set Deploy directory
+    env:
+      DEPLOY_DIR: /app/onestopd/onestopshopv2/cicd-runner
+
+    defaults:
+      # Change directory
+      run:
+        working-directory: $DEPLOY_DIR
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
       # Run jar
       - name: Run new jar
         run: |
