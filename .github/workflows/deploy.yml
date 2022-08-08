@@ -1,16 +1,14 @@
-# This is a basic workflow to help you get started with Actions
-
-name: DC1 CI/CD for production environment
+name: EPS CI/CD for development environment
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the develop branch
+  # Triggers the workflow on push or pull request events but only for the main branch
   push:
     branches: [ main ]
   workflow_dispatch:
 
 
-# DC1 workflow for building, testing and scanning the DC1 Project
+# Workflow for building, backing up and deploying the Project
 jobs:
 
   # This workflow is about building the application
@@ -22,7 +20,6 @@ jobs:
     env:
       JAVA_HOME: /app/onestopd/jdk
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
@@ -33,51 +30,37 @@ jobs:
 
   copy-jar:
     needs: build
-
-    # The type of runner that the job will run on
     runs-on: self-hosted
 
     # Set Deploy directory
     env:
       DEPLOY_DIR: /app/onestopd/onestopshopv2/cicd-runner
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Copy Jar
+      # Copy Jar to deploy location with new name so it doesn't overwrite running jar
       - name: Copy Jar
         run: cp build/libs/demo-0.0.1-SNAPSHOT.jar $DEPLOY_DIR/demo-0.0.1-SNAPSHOT_new.jar
 
   backup:
     needs: copy-jar
-
-    # The type of runner that the job will run on
     runs-on: self-hosted
-
     defaults:
-      # Change directory
+      # Change working directory for all steps
       run:
         working-directory: /app/onestopd/onestopshopv2/cicd-runner
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-
       # Delete backup
       - name: Delete backup
         run: |
-          pwd
           if [ -e demo-0.0.1-SNAPSHOT_bk.jar ]; then
             rm demo-0.0.1-SNAPSHOT_bk.jar
-          else
-            echo "file doesn't exist"
           fi
 
-      # Rename old jar
-      - name: Rename old jar
+      # Backup old jar
+      - name: Backup old jar
         run: |
           if [ -e demo-0.0.1-SNAPSHOT.jar ]; then
             mv demo-0.0.1-SNAPSHOT.jar demo-0.0.1-SNAPSHOT_bk.jar
-          else
-            echo "file doesn't exist"
           fi
 
       # Rename new jar
@@ -85,30 +68,22 @@ jobs:
         run: |
           if [ -e demo-0.0.1-SNAPSHOT_new.jar ]; then
             mv demo-0.0.1-SNAPSHOT_new.jar demo-0.0.1-SNAPSHOT.jar
-          else
-            echo "file doesn't exist"
           fi
 
   deploy:
     needs: backup
-
-    # The type of runner that the job will run on
     runs-on: self-hosted
-
     defaults:
-      # Change directory
+      # Change working directory for all steps
       run:
         working-directory: /app/onestopd/onestopshopv2/cicd-runner
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Run jar
+      # Restart application
+      # RUNNER_TRACKING_ID added because cleanup will kill orphan processes
       - name: Run new jar
         run: |
           if [ -e demo-0.0.1-SNAPSHOT.jar ]; then
             RUNNER_TRACKING_ID="" && ./iamservices.sh restart demo-0.0.1-SNAPSHOT.jar
-          else
-            echo "file doesn't exist"
           fi
 
 
