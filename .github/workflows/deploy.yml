@@ -57,58 +57,60 @@ jobs:
     env:
       DEPLOY_DIR: /app/onestopd/onestopshopv2/cicd-runner
 
+    defaults:
+      # Change directory
+      run:
+        working-directory: $DEPLOY_DIR
+
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Change directory
-      - name: Change directory
-        run: cd $DEPLOY_DIR
 
-#      # Check backup
-#      - name: Check backup
-#        id: check_backup
-#        uses: andstor/file-existence-action@v1
-#        with:
-#          files: "demo-0.0.1-SNAPSHOT_bk.jar"
-#
-#      # Delete backup
-#      - name: Delete backup
-#        if: steps.check_backup.outputs.files_exists == 'true'
-#        run: rm demo-0.0.1-SNAPSHOT_bk.jar
-#
-#      # Check old jar
-#      - name: Check old jar
-#        id: check_old
-#        uses: andstor/file-existence-action@v1
-#        with:
-#          files: "demo-0.0.1-SNAPSHOT.jar"
-#
-#      # Rename old jar
-#      - name: Rename old jar
-#        if: steps.check_old.outputs.files_exists == 'true'
-#        run: mv demo-0.0.1-SNAPSHOT.jar demo-0.0.1-SNAPSHOT_bk.jar
-#
-#      # Check new jar
-#      - name: Rename new jar
-#        id: check_new
-#        uses: andstor/file-existence-action@v1
-#        with:
-#          files: "demo-0.0.1-SNAPSHOT_new.jar"
-#
-#      # Rename new jar
-#      - name: Rename new jar
-#        if: steps.check_new.outputs.files_exists == 'true'
-#        run: mv demo-0.0.1-SNAPSHOT_new.jar demo-0.0.1-SNAPSHOT.jar
-#
-#      # Check jar
-#      - name: Run new jar
-#        id: check_jar
-#        uses: andstor/file-existence-action@v1
-#        with:
-#          files: "demo-0.0.1-SNAPSHOT.jar"
+      # Check backup
+      - name: Check backup
+        id: check_backup
+        uses: andstor/file-existence-action@v1
+        with:
+          files: "demo-0.0.1-SNAPSHOT_bk.jar"
+
+      # Delete backup
+      - name: Delete backup
+        if: steps.check_backup.outputs.files_exists == 'true'
+        run: rm demo-0.0.1-SNAPSHOT_bk.jar
+
+      # Check old jar
+      - name: Check old jar
+        id: check_old
+        uses: andstor/file-existence-action@v1
+        with:
+          files: "demo-0.0.1-SNAPSHOT.jar"
+
+      # Rename old jar
+      - name: Rename old jar
+        if: steps.check_old.outputs.files_exists == 'true'
+        run: mv demo-0.0.1-SNAPSHOT.jar demo-0.0.1-SNAPSHOT_bk.jar
+
+      # Check new jar
+      - name: Rename new jar
+        id: check_new
+        uses: andstor/file-existence-action@v1
+        with:
+          files: "demo-0.0.1-SNAPSHOT_new.jar"
+
+      # Rename new jar
+      - name: Rename new jar
+        if: steps.check_new.outputs.files_exists == 'true'
+        run: mv demo-0.0.1-SNAPSHOT_new.jar demo-0.0.1-SNAPSHOT.jar
+
+      # Check jar
+      - name: Run new jar
+        id: check_jar
+        uses: andstor/file-existence-action@v1
+        with:
+          files: "demo-0.0.1-SNAPSHOT.jar"
 
       # Run jar
       - name: Run new jar
-#        if: steps.check_jar.outputs.files_exists == 'true'
+        if: steps.check_jar.outputs.files_exists == 'true'
         run: ./iamservices.sh restart demo-0.0.1-SNAPSHOT.jar
 
 
