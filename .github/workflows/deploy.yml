@@ -67,7 +67,6 @@ jobs:
 
       # Delete backup
       - name: Delete backup
-        if: steps.check_backup.outputs.files_exists == 'true'
         run: |
           if [ -f "demo-0.0.1-SNAPSHOT_bk.jar"]; then
             echo "removing old jar"
@@ -76,7 +75,6 @@ jobs:
 
       # Rename old jar
       - name: Rename old jar
-        if: steps.check_old.outputs.files_exists == 'true'
         run: |
           if [ -f "demo-0.0.1-SNAPSHOT.jar"]; then
             echo "backing up old jar"
@@ -85,7 +83,6 @@ jobs:
 
       # Rename new jar
       - name: Rename new jar
-        if: steps.check_new.outputs.files_exists == 'true'
         run: |
           if [ -f "demo-0.0.1-SNAPSHOT_new.jar"]; then
             echo "renaming new jar"
@@ -94,7 +91,6 @@ jobs:
 
       # Run jar
       - name: Run new jar
-        if: steps.check_jar.outputs.files_exists == 'true'
         run: |
           if [ -f "demo-0.0.1-SNAPSHOT.jar"]; then
             echo "restarting application"
