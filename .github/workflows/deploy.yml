@@ -68,6 +68,7 @@ jobs:
       # Delete backup
       - name: Delete backup
         run: |
+          ls
           if [ test -e demo-0.0.1-SNAPSHOT_bk.jar]; then
             rm demo-0.0.1-SNAPSHOT_bk.jar
           else
