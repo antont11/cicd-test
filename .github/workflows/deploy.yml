@@ -67,8 +67,10 @@ jobs:
 
       # Delete backup
       - name: Delete backup
+        with:
+          path: $DEPLOY_DIR
         run: |
-          cd /app/onestopd/onestopshopv2/cicd-runner
+          pwd
           if [ -f "demo-0.0.1-SNAPSHOT_bk.jar"]; then
             rm demo-0.0.1-SNAPSHOT_bk.jar
           fi
