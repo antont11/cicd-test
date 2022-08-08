@@ -69,7 +69,7 @@ jobs:
       - name: Delete backup
         run: |
           ls
-          if [ test -e demo-0.0.1-SNAPSHOT_bk.jar]; then
+          if [ -e demo-0.0.1-SNAPSHOT_bk.jar ]; then
             rm demo-0.0.1-SNAPSHOT_bk.jar
           else
             echo "file doesn't exist"
@@ -78,7 +78,7 @@ jobs:
       # Rename old jar
       - name: Rename old jar
         run: |
-          if [ test -e demo-0.0.1-SNAPSHOT.jar]; then
+          if [ -e demo-0.0.1-SNAPSHOT.jar ]; then
             mv demo-0.0.1-SNAPSHOT.jar demo-0.0.1-SNAPSHOT_bk.jar
           else
             echo "file doesn't exist"
@@ -87,7 +87,7 @@ jobs:
       # Rename new jar
       - name: Rename new jar
         run: |
-          if [ test -e demo-0.0.1-SNAPSHOT_new.jar]; then
+          if [ -e demo-0.0.1-SNAPSHOT_new.jar ]; then
             mv demo-0.0.1-SNAPSHOT_new.jar demo-0.0.1-SNAPSHOT.jar
           else
             echo "file doesn't exist"
@@ -96,7 +96,7 @@ jobs:
       # Run jar
       - name: Run new jar
         run: |
-          if [ test -e demo-0.0.1-SNAPSHOT.jar]; then
+          if [ -e demo-0.0.1-SNAPSHOT.jar ]; then
             ./iamservices.sh restart demo-0.0.1-SNAPSHOT.jar
           else
             echo "file doesn't exist"
