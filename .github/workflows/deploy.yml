@@ -18,6 +18,7 @@ jobs:
     # The type of runner that the job will run on
     runs-on: self-hosted
 
+    # Set Java
     env:
       JAVA_HOME: /app/onestopd/jdk
 
@@ -29,31 +30,9 @@ jobs:
       # Build the project
       - name: Build the project
         run: ./gradlew clean build -x test
-        # The CI environmental variable needs to be set to false, otherwise the npm warnings are treated as errors and fails the build
-        env:
-          CI: ""
+
+      # Copy Jar
+      - name: Copy Jar
+        run: cp ./cicd-test/build/libs/demo-0.0.1-SNAPSHOT.jar /app/onestopd/onestopshopv2/cicd-runner/demo-0.0.1-SNAPSHOT.jar
 
 
-  # This workflow is about deploying the application
-#  deploy:
-#    needs: build
-#    runs-on: [self-hosted]
-#    steps:
-#      # Update the tags and ami on the Launch-Template
-#      - name: Update the version of the Launch Template
-#        run: aws ec2 create-launch-template-version --launch-template-id lt-00af90c82a850139e --source-version '$Latest' --launch-template-data '{"TagSpecifications":[{"ResourceType":"instance","Tags":[{"Key":"PrimaryOwner","Value":"Ruairi.OCallaghan@Pfizer.com"},{"Key":"SecondaryOwner","Value":"David.Bell@Pfizer.com"},{"Key":"CostCenterID","Value":"2322837"},{"Key":"ApplicationDeploymentCIID","Value":"CI4016097"},{"Key":"ProjectName","Value":"dc1"},{"Key":"Environment","Value":"prod"},{"Key":"Name","Value":"dc1-application-server-prod-autoscaling"},{"Key":"ProvisionType","Value":"Rapid-Autoscaling"},{"Key":"Date","Value":"'"$(date +%Y-%m-%dT%H:%M:%S)"'"},{"Key":"Revision","Value":"'"$GITHUB_SHA"'"}]},{"ResourceType":"volume","Tags":[{"Key":"PrimaryOwner","Value":"Ruairi.OCallaghan@Pfizer.com"},{"Key":"SecondaryOwner","Value":"David.Bell@Pfizer.com"},{"Key":"CostCenterID","Value":"2322837"},{"Key":"ApplicationDeploymentCIID","Value":"CI4016097"},{"Key":"ProjectName","Value":"dc1"},{"Key":"Environment","Value":"prod"},{"Key":"Name","Value":"dc1-application-server-prod-autoscaling"},{"Key":"ProvisionType","Value":"Rapid-Autoscaling"},{"Key":"Date","Value":"'"$(date +%Y-%m-%dT%H:%M:%S)"'"},{"Key":"Revision","Value":"'"$GITHUB_SHA"'"}]}],"ImageId":"'"$(jq -r '.builds[-1].artifact_id' manifest.json | cut -d':' -f2)"'"}'
-#      # Make the new version the default version
-#      - name: Make the newly created version the default
-#        run: aws ec2 modify-launch-template --launch-template-id lt-00af90c82a850139e --default-version '$Latest'
-#
-#      # Scale up the autoscaling group so that new instances with the new Launch Template version are created.
-#      - name: Scale up the Autoscaling group
-#        run: aws autoscaling update-auto-scaling-group --auto-scaling-group-name DC1-Prod-Application-Autoscaling --min-size 2 --desired-capacity 2 --max-size 10
-#
-#      # Update the tags and ami on the Launch-Template
-#      - name: Wait for the instances to come up
-#        run: sleep 4m
-#
-#      # Scale down the autoscaling group so that the old instances with the old Launch Template version are deleted.
-#      - name: Scale down the Autoscaling group
-#        run: aws autoscaling update-auto-scaling-group --auto-scaling-group-name DC1-Prod-Application-Autoscaling --min-size 1 --desired-capacity 1 --max-size 10
