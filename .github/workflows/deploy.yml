@@ -65,24 +65,28 @@ jobs:
 
       # Delete backup
       - name: Delete backup
+        uses: andstor/file-existence-action@v1
         with:
           files: "demo-0.0.1-SNAPSHOT_bk.jar"
         run: rm demo-0.0.1-SNAPSHOT_bk.jar
 
       # Rename old jar
       - name: Rename old jar
+        uses: andstor/file-existence-action@v1
         with:
           files: "demo-0.0.1-SNAPSHOT.jar"
         run: rename demo-0.0.1-SNAPSHOT.jar demo-0.0.1-SNAPSHOT_bk.jar
 
       # Rename new jar
       - name: Rename new jar
+        uses: andstor/file-existence-action@v1
         with:
           files: "demo-0.0.1-SNAPSHOT_new.jar"
         run: rename demo-0.0.1-SNAPSHOT_new.jar demo-0.0.1-SNAPSHOT.jar
 
       # Run new jar
       - name: Run new jar
+        uses: andstor/file-existence-action@v1
         with:
           files: "demo-0.0.1-SNAPSHOT.jar"
         run: ./iamservices.sh restart demo-0.0.1-SNAPSHOT.jar
