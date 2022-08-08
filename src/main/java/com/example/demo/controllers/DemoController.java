@@ -15,7 +15,7 @@ public class DemoController {
 
   @GetMapping
   public ResponseEntity<String> hello() {
-    return new ResponseEntity<>("Hello 2", HttpStatus.OK);
+    return new ResponseEntity<>("Hello", HttpStatus.OK);
   }
 
 }
