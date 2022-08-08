@@ -41,6 +41,6 @@ jobs:
     steps:
       # Copy Jar
       - name: Copy Jar
-        run: cp ./cicd-test/cicd-test/build/libs/demo-0.0.1-SNAPSHOT.jar /app/onestopd/onestopshopv2/cicd-runner/demo-0.0.1-SNAPSHOT.jar
+        run: cp cicd-test/build/libs/demo-0.0.1-SNAPSHOT.jar /app/onestopd/onestopshopv2/cicd-runner/demo-0.0.1-SNAPSHOT.jar
 
 
