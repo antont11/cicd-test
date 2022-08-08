@@ -37,10 +37,49 @@ jobs:
     # The type of runner that the job will run on
     runs-on: self-hosted
 
+    # Set Deploy directory
+    env:
+      DEPLOY_DIR: /app/onestopd/onestopshopv2/cicd-runner
+
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Copy Jar
       - name: Copy Jar
-        run: cp build/libs/demo-0.0.1-SNAPSHOT.jar /app/onestopd/onestopshopv2/cicd-runner/demo-0.0.1-SNAPSHOT.jar
+        run: cp build/libs/demo-0.0.1-SNAPSHOT.jar $DEPLOY_DIR/demo-0.0.1-SNAPSHOT_new.jar
+
+  deploy:
+    needs: copy-jar
+
+    # The type of runner that the job will run on
+    runs-on: self-hosted
+
+    # Set Deploy directory
+    env:
+      DEPLOY_DIR: /app/onestopd/onestopshopv2/cicd-runner
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Change directory
+      - name: Change directory
+        run: cd $DEPLOY_DIR
+
+      # Delete backup
+      - name: Delete backup
+        if: ${{ -f demo-0.0.1-SNAPSHOT_bk.jar }}
+        run: rm demo-0.0.1-SNAPSHOT.jar
+
+      # Rename old jar
+      - name: Rename old jar
+        if: ${{ -f demo-0.0.1-SNAPSHOT.jar }}
+        run: rename demo-0.0.1-SNAPSHOT.jar demo-0.0.1-SNAPSHOT_bk.jar
+
+      # Rename new jar
+      - name: Rename new jar
+        if: ${{ -f demo-0.0.1-SNAPSHOT_new.jar }}
+        run: rename demo-0.0.1-SNAPSHOT_new.jar demo-0.0.1-SNAPSHOT.jar
+
+      # Run new jar
+      - name: Run new jar
+        run: ./iamservices.sh restart demo-0.0.1-SNAPSHOT.jar
 
 
