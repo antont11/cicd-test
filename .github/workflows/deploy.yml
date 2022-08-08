@@ -57,18 +57,16 @@ jobs:
     env:
       DEPLOY_DIR: /app/onestopd/onestopshopv2/cicd-runner
 
-#    defaults:
-#      # Change directory
-#      run:
-#        working-directory: $DEPLOY_DIR
+    defaults:
+      # Change directory
+      run:
+        working-directory: $DEPLOY_DIR
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
 
       # Delete backup
       - name: Delete backup
-        with:
-          path: $DEPLOY_DIR
         run: |
           pwd
           if [ -f "demo-0.0.1-SNAPSHOT_bk.jar"]; then
