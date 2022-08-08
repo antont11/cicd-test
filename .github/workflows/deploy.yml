@@ -17,16 +17,14 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: self-hosted
+
+    env:
+      JAVA_HOME: /app/onestopd/jdk
+
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-
-      #Set Java_home
-      - name: Set Java
-        run: export JAVA_HOME="/app/onestopd/jdk"
-      - name: Set Path
-        run: export PATH=$JAVA_HOME/bin:$PATH
 
       # Build the project
       - name: Build the project
