@@ -22,6 +22,10 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
+      #Set Java_home
+      - name: Set Java
+          run: export JAVA_HOME="/app/onestopd/jdk"
+
       # Build the project
       - name: Build the project
         run: ./gradlew clean build -x test
