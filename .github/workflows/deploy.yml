@@ -45,7 +45,7 @@ jobs:
     steps:
       # Copy Jar
       - name: Copy Jar
-        run: cp build/libs/demo-0.0.1-SNAPSHOT.jar $DEPLOY_DIR/demo-0.0.1-SNAPSHOT.jar
+        run: cp build/libs/demo-0.0.1-SNAPSHOT.jar $DEPLOY_DIR/demo-0.0.1-SNAPSHOT_new.jar
 
   deploy:
     needs: copy-jar
@@ -70,7 +70,7 @@ jobs:
         id: check_backup
         uses: andstor/file-existence-action@v1
         with:
-          files: "demo-0.0.1-SNAPSHOT_bk.jar"
+          files: "$DEPLOY_DIR/demo-0.0.1-SNAPSHOT_bk.jar"
 
       # Delete backup
       - name: Delete backup
@@ -82,7 +82,7 @@ jobs:
         id: check_old
         uses: andstor/file-existence-action@v1
         with:
-          files: "demo-0.0.1-SNAPSHOT.jar"
+          files: "$DEPLOY_DIR/demo-0.0.1-SNAPSHOT.jar"
 
       # Rename old jar
       - name: Rename old jar
@@ -94,7 +94,7 @@ jobs:
         id: check_new
         uses: andstor/file-existence-action@v1
         with:
-          files: "demo-0.0.1-SNAPSHOT_new.jar"
+          files: "$DEPLOY_DIR/demo-0.0.1-SNAPSHOT_new.jar"
 
       # Rename new jar
       - name: Rename new jar
@@ -106,7 +106,7 @@ jobs:
         id: check_jar
         uses: andstor/file-existence-action@v1
         with:
-          files: "demo-0.0.1-SNAPSHOT.jar"
+          files: "$DEPLOY_DIR/demo-0.0.1-SNAPSHOT.jar"
 
       # Run jar
       - name: Run new jar
