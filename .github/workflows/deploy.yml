@@ -72,7 +72,7 @@ jobs:
 
       # Delete backup
       - name: Delete backup
-#        if: steps.check_backup.outputs.files_exists == 'true'
+        if: steps.check_backup.outputs.files_exists == 'true'
         run: rm demo-0.0.1-SNAPSHOT_bk.jar
 
       # Check old jar
@@ -84,7 +84,7 @@ jobs:
 
       # Rename old jar
       - name: Rename old jar
-#        if: steps.check_old.outputs.files_exists == 'true'
+        if: steps.check_old.outputs.files_exists == 'true'
         run: mv demo-0.0.1-SNAPSHOT.jar demo-0.0.1-SNAPSHOT_bk.jar
 
       # Check new jar
@@ -96,7 +96,7 @@ jobs:
 
       # Rename new jar
       - name: Rename new jar
-#        if: steps.check_new.outputs.files_exists == 'true'
+        if: steps.check_new.outputs.files_exists == 'true'
         run: mv demo-0.0.1-SNAPSHOT_new.jar demo-0.0.1-SNAPSHOT.jar
 
       # Check jar
@@ -108,7 +108,7 @@ jobs:
 
       # Run jar
       - name: Run new jar
-#        if: steps.check_jar.outputs.files_exists == 'true'
+        if: steps.check_jar.outputs.files_exists == 'true'
         run: ./iamservices.sh restart demo-0.0.1-SNAPSHOT.jar
 
 
